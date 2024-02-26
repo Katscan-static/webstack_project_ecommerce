@@ -49,10 +49,10 @@
 		  <tbody>
 			  {% for item in items%}
 			  <tr>
-				  <td>Value of ID</td>
-				  <td>Value of NAME</td>
-				  <td>Value of BARCODE</td>
-				  <td>Value of PRICE</td>
+				  <td>{{ item.id }}</td>
+				  <td>{{ item.name }}</td>
+				  <td>{{item.barcode}}</td>
+				  <td>{{ item.price }}</td>
 				
 			  </tr>
 			  {% endfor%}
