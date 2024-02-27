@@ -27,5 +27,5 @@ def home_page():
 @app.route('/market')
 def market_page():
     with app.app_context():
-        Item.query_all()
+        Item.query.all()
     return render_template('market.html', items=items)
