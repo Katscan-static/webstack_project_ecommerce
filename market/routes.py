@@ -26,6 +26,7 @@ def registration_page():
             db.session.commit()
             return redirect(url_for('market_page'))
     if form.errors != {}:
+        [O
         for err in form.errors.values():
             flash(f'The was an error {err}', category='danger')
     else:
