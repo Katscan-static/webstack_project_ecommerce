@@ -27,7 +27,7 @@ def registration_page():
             return redirect(url_for('market_page'))
     if form.errors != {}:
         for err in form.errors.values():
-            flash(f'The was an error {err}')
+            flash(f'The was an error {err}', category='danger')
     else:
         print('no errors')
     return render_template('register.html', form=form)
