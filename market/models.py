@@ -10,8 +10,15 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     email = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False)
-    budget = db.Column(db.Integer(), nullable=False, default=1000)
+    budget = db.Column(db.Integer(), nullable=False, default=50000)
     items = db.relationship('Item', backref='owned_user', lazy='dynamic')
+
+
+    def can_sell(self, item_obj):
+        return item_obj in self.items
+
+    def can_purchase(self, item_obj):
+        return self.budget >= item_obj.price
 
     @property
     def pretty_budget(self):
@@ -38,6 +45,17 @@ class Item(db.Model):
     barcode = db.Column(db.String(length=12), nullable=False, unique=True)
     description = db.Column(db.String(length=1024), nullable=False, unique=True)
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
+
+    def buy(self, user):
+        self.owner = user.id
+        user.budget -= self.price
+        db.session.commit()
+
+    def sell(self, user):
+        self.owner = None
+        user.budget += self.price
+        db.session.commit()
+
 
     def __repr__(self):
         return f'Item {self.name}'
